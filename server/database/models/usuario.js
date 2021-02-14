@@ -3,7 +3,7 @@ const db = require('../db');
 var Schema = db.conectar().Schema;
 
 var usuarioModelSchema = new Schema({
-    usuario : String,
+    Nome : String,
     Email : String,
     Senha : String,
     Permissao : String
@@ -13,7 +13,7 @@ var usuarioModel = db.conectar().model('usuario',usuarioModelSchema);
 
 function novoUsuario(){
 
-    var novo = new usuarioModel({nome: "Paulo", Email:"paulo@email.com", Senha: "123456", Permissao: "Adm"});
+    var novo = new usuarioModel({Nome: "Paulo", Email:"paulo@email.com", Senha: "123456", Permissao: "Adm"});
 
     novo.save((error)=>{
         if(error){
@@ -54,7 +54,7 @@ async function autenticarUsuario(email, senha){
     
 }
 
-function alterarUsuario(id,email, senha, permissao){
+async function alterarUsuario(id,email, senha, permissao){
     if(!email || typeof(email) == undefined || email == null){
         throw "Informe um e-mail valido.";
     }else if(!senha || typeof(senha) == undefined || senha == null){
@@ -63,13 +63,19 @@ function alterarUsuario(id,email, senha, permissao){
         throw "Informe uma permissao valida.";
     }
 
-    usuarioModel.findOneAndUpdate({_id: id}, {_id: id, Email: email, Senha: senha, Permissao: permissao}).
+    let resultado = false;
+
+    await usuarioModel.findOneAndUpdate({_id: id}, {_id: id, Email: email, Senha: senha, Permissao: permissao}).
         then((result)=>{
-            console.log(result);
+            if(result){
+                resultado = true;
+            }
         }).
         catch((error)=>{
             throw "Erro ao atualizar usuario, tente novamente mais tarde.";
         });
+
+    return resultado;
 }
 
 module.exports = {

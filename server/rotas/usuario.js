@@ -51,9 +51,17 @@ router.post('/', (req, res)=>{
 });
 
 router.put('/', async (req, res)=>{
-    let result = await usuario.alterarUsuario(req.body._id, req.body.email, req.body.senha, req.body.permissao);
-    console.log(result);
-    res.send("Atualizado");
+    try{
+        let result = await usuario.alterarUsuario(req.body._id, req.body.email, req.body.senha, req.body.permissao);
+        
+        if(result){
+            res.status(200).json({"success_msg": "Usuário atualizado com sucesso."});
+        }else{
+            res.status(500).json({"error_msg": "Problema ao atualizar usuário, id não encontrado."});
+        }
+    }catch(e){
+        res.status(500).json({"error_msg": "Problema ao atualizar usuário, tente novamente mais tarde."});
+    }
 })
 
 module.exports = router;
