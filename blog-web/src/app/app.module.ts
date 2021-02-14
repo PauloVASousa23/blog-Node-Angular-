@@ -1,10 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-//Material componentes
-import {MatButtonModule} from '@angular/material/button';
 
 //Components
 import { AppComponent } from './app.component';
@@ -26,9 +25,9 @@ import { CadastroComponent } from './components/cadastro/cadastro.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatButtonModule,
     NgbModule
   ],
   providers: [],
