@@ -10,7 +10,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-<body class="mat-typography">
-  <app-root></app-root>
+<body class="mat-typography d-flex flex-column">
+  <header class="p-2 shadow-sm d-flex align-items-center">
+    <a href="/" class="font-weight-bold h5 text-decoration-none">Blog do Paulo</a>
+    <a href="/" class="mx-4 text-decoration-none">Inicio</a>
+    <a href="/Posts" class="mx-4 text-decoration-none">Posts</a>
+    <a href="/Sobre" class="mx-4 text-decoration-none">Sobre</a>
+    <a href="/Login" class="btn btn-primary ml-auto">Entrar</a>
+  </header>
+
+  <app-root class="flex-fill"></app-root>
+
+  <footer class="py-3 text-center bg-light">
+    <a href="/" class="text-decoration-none">Todos os direitos reservados a Paulo Victor</a>
+  </footer>
 </body>
 </html>

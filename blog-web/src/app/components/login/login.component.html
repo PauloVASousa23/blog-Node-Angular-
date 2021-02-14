@@ -1,0 +1,29 @@
+<div class="bg-dotted h-100 d-flex align-items-center">
+  <div class="card mx-auto col-4 px-0 border-0">
+    <div class="card-header bg-primary text-white h4">
+      Faça o login
+    </div>
+    <div class="card-body">
+      <div class="form-group">
+        <label class="h5">Usuário:</label>
+        <input class="form-control"/>
+      </div>
+      <div class="form-group">
+        <label class="h5">Senha:</label>
+        <input type="password"  class="form-control"/>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-primary">Entrar</button>
+      </div>
+
+      <div class="text-center mt-2">
+        <a href="#">Esqueci a senha</a>
+      </div>
+    </div>
+    <div class="card-footer text-center">
+      <label class="h6">Ainda não possui uma conta?</label>
+      <div class="w-100"></div>
+      <a class="btn btn-success" [routerLink]="['/Cadastre-se']">Cadastre-se</a>
+    </div>
+  </div>
+</div>
