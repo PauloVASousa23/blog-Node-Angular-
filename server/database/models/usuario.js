@@ -35,4 +35,46 @@ async function getUsuario(){
     return usuarios;
 }
 
-module.exports = {novoUsuario, getUsuario};
+async function autenticarUsuario(email, senha){
+    if(!email || typeof(email) == undefined || email == null){
+        throw "Informe um e-mail valido.";
+    }else if(!senha || typeof(senha) == undefined || senha == null){
+        throw "Informe uma senha.";
+    }
+
+    let resultado;
+
+    await usuarioModel.find({Email: email, Senha: senha}).then((result)=>{
+        resultado = result;
+    }).catch((error) =>{
+        throw "Não foi possivel autenticar o usuário.";
+    });
+
+    return resultado;
+    
+}
+
+function alterarUsuario(id,email, senha, permissao){
+    if(!email || typeof(email) == undefined || email == null){
+        throw "Informe um e-mail valido.";
+    }else if(!senha || typeof(senha) == undefined || senha == null){
+        throw "Informe uma senha.";
+    }else if(!permissao || typeof(permissao) == undefined || permissao == null){
+        throw "Informe uma permissao valida.";
+    }
+
+    usuarioModel.findOneAndUpdate({_id: id}, {_id: id, Email: email, Senha: senha, Permissao: permissao}).
+        then((result)=>{
+            console.log(result);
+        }).
+        catch((error)=>{
+            throw "Erro ao atualizar usuario, tente novamente mais tarde.";
+        });
+}
+
+module.exports = {
+    novoUsuario, 
+    getUsuario,
+    autenticarUsuario,
+    alterarUsuario
+};
