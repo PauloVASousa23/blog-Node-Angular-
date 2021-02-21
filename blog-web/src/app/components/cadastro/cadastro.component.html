@@ -1,25 +1,25 @@
 <div class="bg-dotted h-100 d-flex align-items-center">
-  <div class="card mx-auto col-6 px-0 border-0">
+  <form [formGroup]="formCadastro" class="card mx-auto col-6 px-0 border-0">
     <div class="card-header bg-primary text-white h4">
       Cadastre-se
     </div>
     <div class="card-body">
       <div class="form-group">
-        <label class="h5">Usuário:</label>
-        <input class="form-control"/>
+        <label class="h5">Nome:</label>
+        <input formControlName="nome" class="form-control"/>
       </div>
       <div class="form-group">
         <label class="h5">E-mail:</label>
-        <input class="form-control"/>
+        <input formControlName="email" class="form-control"/>
       </div>
       <div class="row">
         <div class="form-group col-6">
           <label class="h5">Senha:</label>
-          <input type="password" class="form-control"/>
+          <input formControlName="senha" type="password" class="form-control"/>
         </div>
         <div class="form-group col-6">
           <label class="h5">Repita a Senha:</label>
-          <input type="password"  class="form-control"/>
+          <input formControlName="reSenha" type="password"  class="form-control"/>
         </div>
       </div>
       <div class="text-center">
@@ -31,5 +31,5 @@
       <div class="w-100"></div>
       <a [routerLink]="['/Login']" class="btn btn-success">Faça o login</a>
     </div>
-  </div>
+  </form>
 </div>

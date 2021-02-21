@@ -11,9 +11,9 @@ var usuarioModelSchema = new Schema({
 
 var usuarioModel = db.conectar().model('usuario',usuarioModelSchema);
 
-function novoUsuario(){
+function novoUsuario(nome, email, senha){
 
-    var novo = new usuarioModel({Nome: "Paulo", Email:"paulo@email.com", Senha: "123456", Permissao: "Adm"});
+    var novo = new usuarioModel({Nome: nome, Email:email, Senha: senha, Permissao: "Comum"});
 
     novo.save((error)=>{
         if(error){

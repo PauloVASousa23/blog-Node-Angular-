@@ -1,19 +1,21 @@
 <div class="bg-dotted h-100 d-flex align-items-center">
-  <div class="card mx-auto col-4 px-0 border-0">
+  <form [formGroup]="formLogin" class="card mx-auto col-4 px-0 border-0">
     <div class="card-header bg-primary text-white h4">
       Faça o login
     </div>
     <div class="card-body">
-      <div class="form-group">
-        <label class="h5">Usuário:</label>
-        <input class="form-control"/>
+      <div [ngClass]="{'text-danger' : validarSeValidoTouched('email')}" class="form-group">
+        <label class="h5">E-mail:</label>
+        <input formControlName='email' class="form-control"/>
+        <div *ngIf="validarSeValidoTouched('email')">E-mail invalido</div>
       </div>
-      <div class="form-group">
+      <div class="form-group" [ngClass]="{'text-danger' : validarSeValidoTouched('senha')}">
         <label class="h5">Senha:</label>
-        <input type="password"  class="form-control"/>
+        <input formControlName="senha" type="password"  class="form-control"/>
+        <div *ngIf="validarSeValidoTouched('senha')">Senha invalida</div>
       </div>
       <div class="text-center">
-        <button class="btn btn-primary">Entrar</button>
+        <button class="btn btn-primary" (click)="autenticarUsuario()">Entrar</button>
       </div>
 
       <div class="text-center mt-2">
@@ -25,5 +27,5 @@
       <div class="w-100"></div>
       <a class="btn btn-success" [routerLink]="['/Cadastre-se']">Cadastre-se</a>
     </div>
-  </div>
+  </form>
 </div>

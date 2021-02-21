@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const cors = require('cors');
+
+//Config de cors
+router.use(cors());
 
 //Models
 const usuario = require('../database/models/usuario');
 
-router.get('/autenticar', async (req, res)=>{
+router.post('/autenticar', async (req, res)=>{
     let resultado;
     try{
         resultado = await usuario.autenticarUsuario(req.body.email, req.body.senha);
@@ -26,21 +30,22 @@ router.get('/', async (req, res)=>{
 
 router.post('/', (req, res)=>{
     let errors = [];
-    if(req.body.nome || typeof(req.body.nome) == undefined || req.body.nome == null){
+    if(!req.body.nome || typeof(req.body.nome) == undefined || req.body.nome == null){
         errors.push("Usuário em branco ou invalido.");
     }
 
-    if(req.body.email || typeof(req.body.email) == undefined || req.body.email == null){
+    if(!req.body.email || typeof(req.body.email) == undefined || req.body.email == null){
         errors.push("E-mail em branco ou invalido.");
     }
 
-    if(req.body.senha || typeof(req.body.senha) == undefined || req.body.senha == null){
+    if(!req.body.senha || typeof(req.body.senha) == undefined || req.body.senha == null){
         errors.push("Senha em branco ou invalido.");
     }
-    
-    if(errors.length > 0){
+    console.log("errors length: " + errors.length);
+    if(!errors.length > 0){
         try{
-            usuario.novoUsuario();
+            console.log("tentou gravar!");
+            usuario.novoUsuario(req.body.nome, req.body.email, req.body.senha);
             res.status(200).send("Usuário cadastrado com sucesso!");
         }catch(e){
             res.status(500).json({"error_msg": "Erro ao cadastrar usuário, tente novamente mais tarde!"});

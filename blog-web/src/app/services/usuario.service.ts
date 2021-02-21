@@ -1,23 +1,34 @@
+import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
 import { IUsuario } from '../interfaces/IUsuario';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private cookie: CookieService,
+    private router: Router
+  ) { }
 
-  obterUsuario(){
-    this.http.get<IUsuario[]>('localhost:3000/usuario').subscribe((data : any)=>{
-      console.log(data);
-    });
+  obterUsuario():any {
+    return this.http.get<IUsuario[]>('http://localhost:3000/usuario');
   }
 
-  cadastrarUsuario(usuario : IUsuario){
+  cadastrarUsuario(nome : string,email : string, senha: string){
+    return this.http.post<IUsuario>('http://localhost:3000/usuario', {nome: nome, email : email, senha: senha});
+  }
 
+  autenticarUsuario(email : string, senha : string){
+    return this.http.post<IUsuario>('http://localhost:3000/usuario/autenticar', {email : email, senha: senha});
+  }
+
+  logout(){
+    this.cookie.delete('autenticado');
+    this.router.navigate(['/Login']);
   }
 }
