@@ -17,8 +17,11 @@ app.use(bodyParser.json());
 
 //Rotas
 const usuarioRota = require('./rotas/usuario');
+const postagensRota = require('./rotas/postagem');
 
 app.use('/usuario', usuarioRota);
+app.use('/postagem', postagensRota);
+
 app.use('/teste', (req, res)=>{
     res.send("teste");
 });

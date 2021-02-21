@@ -9,20 +9,16 @@ router.use(cors());
 const usuario = require('../database/models/usuario');
 
 router.post('/autenticar', async (req, res)=>{
-    let resultado;
     try{
-        resultado = await usuario.autenticarUsuario(req.body.email, req.body.senha);
+        usuario.autenticarUsuario(req.body.email, req.body.senha).then(data=>res.send(data));
     }catch(e){
         res.status(500).json({"error_msg": e})
     }
-    res.send(resultado);
 });
 
 router.get('/', async (req, res)=>{
     try{
-        let usuarios = await usuario.getUsuario();
-        console.log(usuarios);
-        res.json(usuarios);
+        usuario.getUsuario().then(data=>res.json(data));        
     }catch(e){
         res.status(500).json({"error_msg": "Não foi possivel obter usuários, tente novamente mais tarde!"});
     }
@@ -41,10 +37,9 @@ router.post('/', (req, res)=>{
     if(!req.body.senha || typeof(req.body.senha) == undefined || req.body.senha == null){
         errors.push("Senha em branco ou invalido.");
     }
-    console.log("errors length: " + errors.length);
+    
     if(!errors.length > 0){
         try{
-            console.log("tentou gravar!");
             usuario.novoUsuario(req.body.nome, req.body.email, req.body.senha);
             res.status(200).send("Usuário cadastrado com sucesso!");
         }catch(e){
@@ -57,13 +52,13 @@ router.post('/', (req, res)=>{
 
 router.put('/', async (req, res)=>{
     try{
-        let result = await usuario.alterarUsuario(req.body._id, req.body.email, req.body.senha, req.body.permissao);
-        
-        if(result){
-            res.status(200).json({"success_msg": "Usuário atualizado com sucesso."});
-        }else{
-            res.status(500).json({"error_msg": "Problema ao atualizar usuário, id não encontrado."});
-        }
+        usuario.alterarUsuario(req.body._id, req.body.email, req.body.senha, req.body.permissao).then(data => {
+            if(data){
+                res.status(200).json({"success_msg": "Usuário atualizado com sucesso."});
+            }else{
+                res.status(500).json({"error_msg": "Problema ao atualizar usuário, id não encontrado."});
+            }
+        });
     }catch(e){
         res.status(500).json({"error_msg": "Problema ao atualizar usuário, tente novamente mais tarde."});
     }

@@ -15,46 +15,35 @@ function novoUsuario(nome, email, senha){
 
     var novo = new usuarioModel({Nome: nome, Email:email, Senha: senha, Permissao: "Comum"});
 
-    novo.save((error)=>{
+    return novo.save((error)=>{
         if(error){
             throw "Erro";
         }
     });
 }
 
-async function getUsuario(){
-    let usuarios;
-    await usuarioModel.find((error,u)=>{
+function getUsuario(){
+
+    return usuarioModel.find((error,u)=>{
         if(error){
             throw "Erro";
-        }else{
-            usuarios = u;
         }
-    });
+    }).exec();
 
-    return usuarios;
 }
 
-async function autenticarUsuario(email, senha){
+function autenticarUsuario(email, senha){
     if(!email || typeof(email) == undefined || email == null){
         throw "Informe um e-mail valido.";
     }else if(!senha || typeof(senha) == undefined || senha == null){
         throw "Informe uma senha.";
     }
 
-    let resultado;
+    return usuarioModel.find({Email: email, Senha: senha}).exec();
 
-    await usuarioModel.find({Email: email, Senha: senha}).then((result)=>{
-        resultado = result;
-    }).catch((error) =>{
-        throw "Não foi possivel autenticar o usuário.";
-    });
-
-    return resultado;
-    
 }
 
-async function alterarUsuario(id,email, senha, permissao){
+function alterarUsuario(id,email, senha, permissao){
     if(!email || typeof(email) == undefined || email == null){
         throw "Informe um e-mail valido.";
     }else if(!senha || typeof(senha) == undefined || senha == null){
@@ -63,19 +52,8 @@ async function alterarUsuario(id,email, senha, permissao){
         throw "Informe uma permissao valida.";
     }
 
-    let resultado = false;
+    return usuarioModel.findOneAndUpdate({_id: id}, {_id: id, Email: email, Senha: senha, Permissao: permissao}).exec();
 
-    await usuarioModel.findOneAndUpdate({_id: id}, {_id: id, Email: email, Senha: senha, Permissao: permissao}).
-        then((result)=>{
-            if(result){
-                resultado = true;
-            }
-        }).
-        catch((error)=>{
-            throw "Erro ao atualizar usuario, tente novamente mais tarde.";
-        });
-
-    return resultado;
 }
 
 module.exports = {
