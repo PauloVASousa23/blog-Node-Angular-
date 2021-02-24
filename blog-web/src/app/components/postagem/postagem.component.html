@@ -1,0 +1,17 @@
+<div class="card m-2 shadow-sm bg-light p-2">
+  <h3 class="px-4 mx-4">{{titulo}}</h3>
+  <hr class="hr mt-0"/>
+  <div>
+    <div class="img-preview border-0 d-flex justify-content-center align-items-center">
+      <img class="h-100" id="imagePreview" [src]="imagem">
+    </div>
+  </div>
+
+  <div class="mt-4 px-4 mx-4">
+    {{conteudo}}
+  </div>
+
+  <div class="text-center mt-4">
+    <button class="btn btn-dark" [routerLink]="['../']">Voltar</button>
+  </div>
+</div>

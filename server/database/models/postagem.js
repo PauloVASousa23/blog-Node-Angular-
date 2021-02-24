@@ -1,8 +1,10 @@
 const db = require('../db');
+const mongoose = require('mongoose');
 
 var Schema = db.conectar().Schema;
 
 var postagemModelSchema = new Schema({
+    Id : String,
     Titulo : String,
     Imagem : String,
     Conteudo : String,
@@ -38,7 +40,22 @@ function getPostagens(){
     }).exec();
 }
 
+function getPostagem(id){
+    return postagemModel.find({_id: mongoose.Types.ObjectId(id)}).exec();
+}
+
+function alterarPostagem(id, titulo, imagem, conteudo, autor){
+    return postagemModel.findOneAndUpdate({_id: mongoose.Types.ObjectId(id)}, {Titulo: titulo, Imagem: imagem, Conteudo: conteudo, Autor: autor}).exec();
+}
+
+function excluirPostagem(id){
+    return postagemModel.deleteOne({_id: mongoose.Types.ObjectId(id)}).exec();
+}
+
 module.exports = {
     novaPostagem,
-    getPostagens
+    getPostagens,
+    getPostagem,
+    alterarPostagem,
+    excluirPostagem
 };

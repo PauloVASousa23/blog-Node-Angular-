@@ -3,10 +3,10 @@
   <a href="/" class="mx-4 text-decoration-none">Inicio</a>
   <a href="/Posts" class="mx-4 text-decoration-none">Posts</a>
   <a href="/Sobre" class="mx-4 text-decoration-none">Sobre</a>
-  <a href="/Login" class="btn btn-primary ml-auto">Entrar</a>
-  <a href="javascript:void(0)" (click)="logout()" class="btn btn-danger ml-1">Sair</a>
+  <a href="/administracao" *ngIf="estaLogado()" class="mx-4 text-decoration-none">Administração</a>
+  <a href="/Login" *ngIf="!estaLogado()" class="btn btn-primary ml-auto">Entrar</a>
+  <a href="" (click)="logout()" *ngIf="estaLogado()" class="btn btn-danger ml-auto">Sair</a>
 </header>
-
 <router-outlet></router-outlet>
 
 <footer class="py-3 text-center bg-light">

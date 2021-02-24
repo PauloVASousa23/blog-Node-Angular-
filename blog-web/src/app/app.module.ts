@@ -16,6 +16,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/home/home.component';
 import { CadastroComponent } from './components/cadastro/cadastro.component';
 import { AdministracaoComponent } from './administracao/administracao.component';
+import { CriarComponent } from './administracao/criar/criar.component';
+import { ListaComponent } from './administracao/lista/lista.component';
+import { PostagemComponent } from './components/postagem/postagem.component';
+import { EditarComponent } from './administracao/editar/editar.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,11 @@ import { AdministracaoComponent } from './administracao/administracao.component'
     NavbarComponent,
     HomeComponent,
     CadastroComponent,
-    AdministracaoComponent
+    AdministracaoComponent,
+    CriarComponent,
+    ListaComponent,
+    PostagemComponent,
+    EditarComponent
   ],
   imports: [
     BrowserModule,
