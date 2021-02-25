@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PostagemService } from 'src/app/services/postagem.service';
 
 @Component({
   selector: 'app-postagem',
@@ -11,19 +11,19 @@ export class PostagemComponent implements OnInit {
   titulo : string = '';
   imagem : string = '';
   conteudo : string = '';
+  postagem : any;
 
-  constructor(private postagemService: PostagemService, private route : ActivatedRoute) { }
+  constructor(private activeRoute : ActivatedRoute, private location : Location) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(
-      (params : any)=>{
-        this.postagemService.getPostagem(params.id).subscribe((data : any)=>{
-          this.titulo = data[0].Titulo;
-          this.imagem = data[0].Imagem;
-          this.conteudo = data[0].Conteudo;
-        });
-      }
-    );
+    this.postagem = this.activeRoute.snapshot.data.postagem[0];
+    this.titulo = this.postagem.Titulo;
+    this.imagem = this.postagem.Imagem;
+    this.conteudo = this.postagem.Conteudo;
+  }
+
+  voltar(){
+    this.location.back();
   }
 
 }

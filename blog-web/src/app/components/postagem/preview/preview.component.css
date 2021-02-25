@@ -1,0 +1,15 @@
+.post-preview{
+  height: 200px;
+  border-bottom: 1px solid #ccc;
+  border-radius: 10px;
+  transition: 0.4s;
+}
+
+.post-preview:hover{
+  background-color: #007bff30;
+  cursor: pointer;
+}
+
+.post-preview:nth-last-child(1){
+  border: none;
+}

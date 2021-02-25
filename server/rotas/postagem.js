@@ -26,7 +26,7 @@ router.get('/:id',(req, res)=>{
 router.delete('/:id',(req, res)=>{
     if(req.params.id){
         try{
-            postagem.excluirPostagem(req.params.id).then(data=> res.json("Postagem deletada com sucesso!").catch(e=> console.log("Erro: " + e));
+            postagem.excluirPostagem(req.params.id).then(data=> res.json("Postagem deletada com sucesso!")).catch(e=> console.log("Erro: " + e));
         }catch(e){
             res.status(500).json("Erro ao excluir postagem, tente novamente mais tarde.");
         }

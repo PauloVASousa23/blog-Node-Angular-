@@ -19,6 +19,8 @@ export class EditarComponent implements OnInit {
   };
   idPostagem : string = '';
 
+  postagem : any;
+
   constructor(
     private fb : FormBuilder,
     private router: ActivatedRoute,
@@ -33,16 +35,14 @@ export class EditarComponent implements OnInit {
       imagem: ['']
     });
 
-    this.router.params.subscribe(
-      (params: any) => {
-        this.idPostagem = params.id;
-        this.postagemService.getPostagem(this.idPostagem).subscribe((data : any) => {
-          this.ctTitulo.setValue(data[0].Titulo);
-          this.ctImagem.setValue(data[0].Imagem);
-          this.ctConteudo.setValue(data[0].Conteudo);
-          this.previewImage.link = data[0].Imagem;
-        });
-      });
+    this.postagem = this.router.snapshot.data.postagem[0];
+
+    this.ctTitulo.setValue(this.postagem.Titulo);
+    this.ctImagem.setValue(this.postagem.Imagem);
+    this.ctConteudo.setValue(this.postagem.Conteudo);
+    this.previewImage.link = this.postagem.Imagem;
+    this.idPostagem = this.postagem._id;
+
   }
 
   alterar(){

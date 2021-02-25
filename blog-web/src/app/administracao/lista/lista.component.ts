@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { PostagemService } from 'src/app/services/postagem.service';
 
 @Component({
@@ -10,12 +11,13 @@ export class ListaComponent implements OnInit {
 
   postagens : any;
 
-  constructor(private postagemService : PostagemService) { }
+  constructor(
+    private postagemService : PostagemService,
+    private activeRoute : ActivatedRoute
+    ) { }
 
   ngOnInit(): void {
-    this.postagemService.getPostagens().subscribe(data=>{
-      this.postagens = data;
-    });
+    this.postagens = this.activeRoute.snapshot.data.postagens;
   }
 
   excluirPostagem(id:string){

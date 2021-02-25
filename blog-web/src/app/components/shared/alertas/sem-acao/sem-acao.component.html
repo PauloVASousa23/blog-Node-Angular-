@@ -1,0 +1,27 @@
+<div [style.background-color]="cor" class="p-3">
+  <div class="">
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <h3>{{titulo}}</h3>
+  {{conteudo}}
+  <div class="w-100 text-right">
+    <button
+      [hidden]="!botaoCancelar"
+      [style.background-color]="corBotaoCancelar"
+      [style.color]="corTextoBotaoCancelar"
+      class="btn">
+      {{textoBotaoCancelar}}
+    </button>
+    <button
+      [hidden]="!botaoConfirmar"
+      [style.background-color]="corBotaoConfirmar"
+      [style.color]="corTextoBotaoConfirmar"
+      class="btn"
+      (click)="confirmar()"
+      >
+      {{textoBotaoConfirmar}}
+    </button>
+  </div>
+</div>

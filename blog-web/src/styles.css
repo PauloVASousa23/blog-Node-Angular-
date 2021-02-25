@@ -11,3 +11,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .ng-invalid.ng-touched:not(form) {
   border: 1px solid #f33e3e;
 }
+.modal-content{
+  overflow: hidden;
+}

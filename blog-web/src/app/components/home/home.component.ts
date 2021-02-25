@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IPostagem } from 'src/app/interfaces/IPostagem';
 import { IUsuario } from 'src/app/interfaces/IUsuario';
+import { PostagemService } from 'src/app/services/postagem.service';
 import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
@@ -9,14 +12,14 @@ import { UsuarioService } from '../../services/usuario.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private usuarioService : UsuarioService) { }
+  constructor(private activeRoute : ActivatedRoute) { }
 
-  usuarios : IUsuario[] = [];
+  postagens : IPostagem[] = [];
 
   ngOnInit(): void {
-    this.usuarioService.obterUsuario().subscribe((data : IUsuario[])=>{
-      this.usuarios = data;
-    });
+
+    this.postagens = this.activeRoute.snapshot.data.postagens;
+
   }
 
 }

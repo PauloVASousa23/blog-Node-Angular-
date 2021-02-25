@@ -20,6 +20,8 @@ import { CriarComponent } from './administracao/criar/criar.component';
 import { ListaComponent } from './administracao/lista/lista.component';
 import { PostagemComponent } from './components/postagem/postagem.component';
 import { EditarComponent } from './administracao/editar/editar.component';
+import { PreviewComponent } from './components/postagem/preview/preview.component';
+import { SemAcaoComponent } from './components/shared/alertas/sem-acao/sem-acao.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { EditarComponent } from './administracao/editar/editar.component';
     CriarComponent,
     ListaComponent,
     PostagemComponent,
-    EditarComponent
+    EditarComponent,
+    PreviewComponent,
+    SemAcaoComponent
   ],
   imports: [
     BrowserModule,

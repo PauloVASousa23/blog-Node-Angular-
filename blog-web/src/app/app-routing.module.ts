@@ -1,3 +1,5 @@
+import { PostagemComponent } from './components/postagem/postagem.component';
+import { PostagemResolver } from './resolver/postagem-resolver.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 //Components
@@ -8,7 +10,8 @@ import { HelpComponent } from './components/help/help.component';
 import { AutenticacaoGuardService } from './guard/autenticacao-guard.service';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
+  {path: '', component: HomeComponent, resolve: {postagens : PostagemResolver}},
+  {path: 'Post/:id', component: PostagemComponent, resolve: {postagem : PostagemResolver}},
   {path: 'Login', component: LoginComponent},
   {path: 'Cadastre-se', component: CadastroComponent},
   {path: 'help', component: HelpComponent, canActivate: [AutenticacaoGuardService]},
