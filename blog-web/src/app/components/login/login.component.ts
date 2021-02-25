@@ -19,8 +19,7 @@ export class LoginComponent implements OnInit {
     private fb : FormBuilder,
     private usuarioService : UsuarioService,
     private cookie: CookieService,
-    private route : Router,
-    private alertasService : AlertasService
+    private route : Router
   ) { }
 
   ngOnInit(): void {
@@ -28,7 +27,6 @@ export class LoginComponent implements OnInit {
       email : ['', [Validators.email, Validators.required]],
       senha : ['', [Validators.required]]
     });
-    this.alertasService.mostrarAlerta({Titulo: "teste", Conteudo: "Conteudo da modal", BotaoConfirmar: true} as IAlerta).subscribe((x : any)=>{console.log(x)});
   }
 
   autenticarUsuario(){

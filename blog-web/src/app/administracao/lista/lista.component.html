@@ -16,6 +16,7 @@
       <button class="btn btn-outline-warning mr-2 col-auto" [routerLink]="['/administracao/editar',post._id]">Editar</button>
       <button class="btn btn-outline-danger col-auto" (click)="excluirPostagem(post._id)">Excluir</button>
     </li>
+    <li class="text-center list-unstyled" [hidden]="postagens.length > 0">Não há postagens.</li>
   </ul>
 </div>
 

@@ -1,0 +1,11 @@
+.timer-container{
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+}
+
+.timer{
+  height: 10px;
+  width: 100%;
+  background-color: #000;
+}
