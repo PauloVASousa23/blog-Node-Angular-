@@ -26,7 +26,7 @@
       {{textoBotaoConfirmar}}
     </button>
   </div>
-  <div class="timer-container w-100">
+  <div class="timer-container w-100" *ngIf="barraTimer">
     <div class="timer" id="timer" [style.background-color]="corBarraTimer"></div>
   </div>
 </div>

@@ -23,6 +23,7 @@ export class AlertasService {
     modalReference.componentInstance.textoBotaoConfirmar = propriedades.TextoBotaoConfirmar || 'Confirmar';
     modalReference.componentInstance.corBotaoConfirmar = propriedades.CorBotaoConfirmar || "#77bb6f";
     modalReference.componentInstance.corTextoBotaoConfirmar = propriedades.CorTextoBotaoConfirmar || "#fff";
+    modalReference.componentInstance.barraTimer = propriedades.BarraTimer || false;
     modalReference.componentInstance.timeout = propriedades.Timeout || 0;
     modalReference.componentInstance.corBarraTimer = propriedades.CorBarraTimer || '#007bff';
 

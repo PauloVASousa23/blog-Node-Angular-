@@ -21,7 +21,6 @@ export class ListaComponent implements OnInit {
 
   ngOnInit(): void {
     this.postagens = this.activeRoute.snapshot.data.postagens;
-    this.alerta.mostrarAlerta({Conteudo: "Obrigado :) ", Timeout: 5000} as IAlerta);
   }
 
   excluirPostagem(id:string){
@@ -31,12 +30,17 @@ export class ListaComponent implements OnInit {
        if(result){
          this.postagemService.excluirPostagem(id).subscribe(data=>{
            if(data == "Postagem deletada com sucesso!"){
-              window.location.reload();
+              this.alerta.mostrarAlerta({Conteudo: "Post excluido com sucesso!", Cor: '#ffbec4', Timeout: 2000} as IAlerta);
+              this.atualizarLista();
            }
          });
        }
       });
 
+  }
+
+  atualizarLista(){
+    this.postagemService.getPostagens().subscribe(data => {this.postagens = data});
   }
 
 }

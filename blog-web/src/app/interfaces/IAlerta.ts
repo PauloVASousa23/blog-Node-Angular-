@@ -10,6 +10,7 @@ export interface IAlerta{
   TextoBotaoConfirmar: string,
   CorBotaoConfirmar: string,
   CorTextoBotaoConfirmar: string,
+  BarraTimer: boolean,
   Timeout: number,
   CorBarraTimer: string,
 }

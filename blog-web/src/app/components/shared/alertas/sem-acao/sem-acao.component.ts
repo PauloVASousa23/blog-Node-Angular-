@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { time } from 'console';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -21,15 +20,17 @@ export class SemAcaoComponent implements OnInit, AfterViewInit {
   @Input() textoBotaoConfirmar : string = 'Confirmar';
   @Input() corBotaoConfirmar : string = '';
   @Input() corTextoBotaoConfirmar : string = '';
+  @Input() barraTimer : boolean = false;
   @Input() corBarraTimer : string = '';
   @Input() timeout : number = 0;
   acaoBotao : Subject<boolean> = new Subject<boolean>();
-  timer : number = 100;
+  timer : number = 0;
   largura : number = 100;
 
   constructor(public activeModal : NgbActiveModal) { }
 
   ngOnInit(): void {
+    console.log(this.barraTimer);
   }
 
   ngAfterViewInit(): void {
@@ -50,11 +51,12 @@ export class SemAcaoComponent implements OnInit, AfterViewInit {
 
   startTimer(){
     this.timer = this.timeout / 1000;
-    document.getElementById("timer")!.style.transition = "all " + this.timer+"s cubic-bezier(0.24, 0.29, 0.74, 0.76) 0s";
-    setTimeout(() =>{
-      document.getElementById("timer")!.style.width = '0%';
-    },100);
-
+    if(this.barraTimer){
+      document.getElementById("timer")!.style.transition = "all " + this.timer+"s cubic-bezier(0.24, 0.29, 0.74, 0.76) 0s";
+      setTimeout(() =>{
+        document.getElementById("timer")!.style.width = '0%';
+      },200);
+    }
     setTimeout(() =>{
       this.activeModal.close();
     },this.timeout);
