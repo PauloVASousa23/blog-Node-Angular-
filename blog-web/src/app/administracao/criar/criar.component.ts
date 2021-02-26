@@ -5,6 +5,7 @@ import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AlertasService } from 'src/app/services/alertas.service';
 import { IAlerta } from 'src/app/interfaces/IAlerta';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-criar',
@@ -13,6 +14,7 @@ import { IAlerta } from 'src/app/interfaces/IAlerta';
 })
 export class CriarComponent implements OnInit {
 
+  files : Set<File> = new Set();
   formPostagem : any;
   previewImage : any;
 
@@ -20,7 +22,8 @@ export class CriarComponent implements OnInit {
     private fb : FormBuilder,
     private postagemService: PostagemService,
     private route : Router,
-    private alerta : AlertasService
+    private alerta : AlertasService,
+    private sanitizer : DomSanitizer
     ) { }
 
   ngOnInit(): void {
@@ -32,16 +35,25 @@ export class CriarComponent implements OnInit {
   }
 
   cadastrar(){
-    if(this.formPostagem.valid){
-      this.formPostagem.get('imagem').setValue(this.previewImage.link);
-      console.log(this.formPostagem);
-      this.postagemService.cadastrarPostagem(this.formPostagem.get('titulo').value, this.formPostagem.get('imagem').value, this.formPostagem.get('conteudo').value, "Paulo")
-        .subscribe(x=>{if(x == 'Postagem cadastrada com sucesso!') {
-          this.alerta.mostrarAlerta({Conteudo: "Post criado com sucesso!", Cor: '#90eca5',Timeout: 2000, BarraTimer: true} as IAlerta);
-          this.route.navigate(['/administracao'])
-        }
+    this.previewImage.link = '';
+
+    this.postagemService.cadastrarPostagemFile(this.formPostagem.get('titulo').value, this.files, this.formPostagem.get('conteudo').value, "Paulo")
+      .subscribe(x=>
+      {
+        var url = window.URL || window.webkitURL;
+        var imageSrc = url.createObjectURL(x);
+        this.previewImage.link = this.sanitizer.bypassSecurityTrustUrl(imageSrc);
       });
-    }
+    // if(this.formPostagem.valid){
+    //   this.formPostagem.get('imagem').setValue(this.previewImage.link);
+    //   console.log(this.formPostagem);
+    //   this.postagemService.cadastrarPostagem(this.formPostagem.get('titulo').value, this.formPostagem.get('imagem').value, this.formPostagem.get('conteudo').value, "Paulo")
+    //     .subscribe(x=>{if(x == 'Postagem cadastrada com sucesso!') {
+    //       this.alerta.mostrarAlerta({Conteudo: "Post criado com sucesso!", Cor: '#90eca5',Timeout: 2000, BarraTimer: true} as IAlerta);
+    //       this.route.navigate(['/administracao'])
+    //     }
+    //   });
+    // }
   }
 
   cliqueNaImagem(){
@@ -59,5 +71,9 @@ export class CriarComponent implements OnInit {
     }
 
     reader.readAsDataURL(event.target.files[0]);
+
+    for(let i=0;i<event.srcElement.files.length;i++){
+      this.files.add(event.srcElement.files[i]);
+    }
   }
 }

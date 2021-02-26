@@ -1,11 +1,59 @@
 const express = require('express');
 const router = express.Router();
 const cors = require('cors');
+const multiparty = require('connect-multiparty');
 
+const multipartyPath = multiparty({uploadDir: './arquivos'});
 router.use(cors());
 
 //Models
 const postagem = require('../database/models/postagem');
+
+router.post('/upload/Arquivo', multipartyPath, (req, res, next)=>{
+    console.log(req.files);
+    let errors = [];
+    if(!req.body.titulo || typeof(req.body.titulo) == undefined || req.body.titulo == null){
+        errors.push("Titulo em branco ou invalido.");
+    }
+
+    if(!req.files.imagem.path || typeof(req.files.imagem.path) == undefined || req.files.imagem.path == null){
+        errors.push("Imagem em branco ou invalido.");
+    }
+
+    if(!req.body.conteudo || typeof(req.body.conteudo) == undefined || req.body.conteudo == null){
+        errors.push("Conteudo em branco ou invalido.");
+    }
+
+    if(!req.body.autor || typeof(req.body.autor) == undefined || req.body.autor == null){
+        errors.push("Autor em branco ou invalido.");
+    }
+
+    if(!errors.length > 0){
+        postagem.novaPostagem(req.body.titulo,req.files.imagem.path,req.body.conteudo, req.body.autor);
+
+        console.log(__dirname.replace('rotas','')+ 'arquivos');
+        var options = {
+            root: __dirname.replace('rotas','')+ 'arquivos',
+            dotfiles: 'deny',
+            headers: {
+                'x-timestamp': Date.now(),
+                'x-sent': true
+            }
+        }
+        
+        let nomeArquivo = req.files.imagem.path.replace('arquivos\\', '');
+        res.sendFile(nomeArquivo, options, function (err) {
+            if (err) {
+              next(err);
+            } else {
+              console.log('Enviar:', nomeArquivo);
+            }
+        });
+        //res.status(200).json("Postagem cadastrada com sucesso!");
+    }else{
+        res.status(500).json({"error_msg": errors});
+    }
+});
 
 router.get('/',(req, res)=>{
     postagem.getPostagens().then(data=> res.json(data));
