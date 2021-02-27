@@ -9,7 +9,9 @@ var postagemModelSchema = new Schema({
     Imagem : String,
     Conteudo : String,
     Data : String,
-    Autor : String 
+    Autor : String, 
+    Like : Number, 
+    Deslike : Number, 
 });
 
 var postagemModel = db.conectar().model('postagem',postagemModelSchema);
@@ -21,7 +23,9 @@ function novaPostagem(titulo, imagem, conteudo, autor){
         Imagem : imagem,
         Conteudo : conteudo,
         Data : Date.now(),
-        Autor : autor 
+        Autor : autor,
+        Like: 0,
+        Deslike: 0
     });
 
     postagem.save((err)=>{
@@ -52,10 +56,24 @@ function excluirPostagem(id){
     return postagemModel.deleteOne({_id: mongoose.Types.ObjectId(id)}).exec();
 }
 
+function likePostagem(id){
+    postagemModel.findOne({_id: mongoose.Types.ObjectId(id)}).then(x=>{
+        return postagemModel.findOneAndUpdate({_id: mongoose.Types.ObjectId(id)}, {Like: x.Like+1}).exec();
+    });
+}
+
+function deslikePostagem(id){
+    postagemModel.findOne({_id: mongoose.Types.ObjectId(id)}).then(x=>{
+        return postagemModel.findOneAndUpdate({_id: mongoose.Types.ObjectId(id)}, {Deslike: x.Deslike+1}).exec();
+    });
+}
+
 module.exports = {
     novaPostagem,
     getPostagens,
     getPostagem,
     alterarPostagem,
-    excluirPostagem
+    excluirPostagem,
+    likePostagem,
+    deslikePostagem
 };

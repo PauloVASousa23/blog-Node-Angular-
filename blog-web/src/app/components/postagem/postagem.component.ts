@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-postagem',
@@ -18,7 +19,7 @@ export class PostagemComponent implements OnInit {
   ngOnInit(): void {
     this.postagem = this.activeRoute.snapshot.data.postagem[0];
     this.titulo = this.postagem.Titulo;
-    this.imagem = this.postagem.Imagem;
+    this.imagem = environment.API+"/postagem/imagem/" + this.postagem.Imagem;
     this.conteudo = this.postagem.Conteudo;
   }
 

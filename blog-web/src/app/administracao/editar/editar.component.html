@@ -7,7 +7,7 @@
   </div>
   <div>
     <div class="img-preview d-flex justify-content-center align-items-center" (click)="cliqueNaImagem()">
-      <img class="h-100" id="imagePreview" [src]="previewImage ? previewImage.link : ''">
+      <img class="h-100" id="imagePreview" [src]="previewImage ? urlServer+previewImage.link : ''">
       <label *ngIf="!previewImage">Imagem</label>
     </div>
     <input type="file" [hidden]="true" id="inputFile" (change)="previewImagem($event)"  accept="image/png, image/jpeg">

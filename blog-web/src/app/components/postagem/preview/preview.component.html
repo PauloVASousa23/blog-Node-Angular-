@@ -1,6 +1,6 @@
 <div class="row m-2 py-2 post-preview" *ngFor="let post of postagens" [routerLink]="['/Post', post._id]">
   <div class="col-3 text-center h-100">
-    <img [src]="post.Imagem" class="h-100">
+    <img [src]="urlServer+post.Imagem" class="h-100">
   </div>
   <div class="col-9">
     <p style="height: calc(100% - 40px)">{{post.Conteudo}}</p>

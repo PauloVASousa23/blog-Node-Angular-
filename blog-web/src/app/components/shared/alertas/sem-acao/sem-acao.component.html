@@ -6,7 +6,7 @@
   </div>
   <h3>{{titulo}}</h3>
   {{conteudo}}
-  <div class="w-100 text-right mt-3">
+  <div *ngIf="botaoCancelar || botaoConfirmar" class="w-100 text-right mt-3">
     <button
       [hidden]="!botaoCancelar"
       [style.background-color]="corBotaoCancelar"

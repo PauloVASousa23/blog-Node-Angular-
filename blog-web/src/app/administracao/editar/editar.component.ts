@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, tap } from 'rxjs/operators';
 import { PostagemService } from 'src/app/services/postagem.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-editar',
@@ -20,6 +21,7 @@ export class EditarComponent implements OnInit {
   idPostagem : string = '';
 
   postagem : any;
+  urlServer : string = '';
 
   constructor(
     private fb : FormBuilder,
@@ -42,6 +44,8 @@ export class EditarComponent implements OnInit {
     this.ctConteudo.setValue(this.postagem.Conteudo);
     this.previewImage.link = this.postagem.Imagem;
     this.idPostagem = this.postagem._id;
+
+    this.urlServer = environment.API+"/postagem/imagem/";
 
   }
 

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const cors = require('cors');
 const multiparty = require('connect-multiparty');
+const fileStream = require('fs');
 
 const multipartyPath = multiparty({uploadDir: './arquivos'});
 router.use(cors());
@@ -9,8 +10,13 @@ router.use(cors());
 //Models
 const postagem = require('../database/models/postagem');
 
+function convertToBase64(nomeArquivo){
+    let base64 = fileStream.readFileSync(__dirname.replace('rotas','')+ 'arquivos\\'+ nomeArquivo);
+
+    return new Buffer(base64).toString('base64');
+}
+
 router.post('/upload/Arquivo', multipartyPath, (req, res, next)=>{
-    console.log(req.files);
     let errors = [];
     if(!req.body.titulo || typeof(req.body.titulo) == undefined || req.body.titulo == null){
         errors.push("Titulo em branco ou invalido.");
@@ -29,27 +35,21 @@ router.post('/upload/Arquivo', multipartyPath, (req, res, next)=>{
     }
 
     if(!errors.length > 0){
-        postagem.novaPostagem(req.body.titulo,req.files.imagem.path,req.body.conteudo, req.body.autor);
+        let nomeArquivo = req.files.imagem.path.replace('arquivos\\', '');
 
-        console.log(__dirname.replace('rotas','')+ 'arquivos');
+        postagem.novaPostagem(req.body.titulo, nomeArquivo, req.body.conteudo, req.body.autor);
+        
         var options = {
             root: __dirname.replace('rotas','')+ 'arquivos',
             dotfiles: 'deny',
             headers: {
                 'x-timestamp': Date.now(),
-                'x-sent': true
+                'x-sent': true,
+                'Autor': 'Paulo'
             }
         }
-        
-        let nomeArquivo = req.files.imagem.path.replace('arquivos\\', '');
-        res.sendFile(nomeArquivo, options, function (err) {
-            if (err) {
-              next(err);
-            } else {
-              console.log('Enviar:', nomeArquivo);
-            }
-        });
-        //res.status(200).json("Postagem cadastrada com sucesso!");
+
+        res.status(200).json("Postagem cadastrada com sucesso!");
     }else{
         res.status(500).json({"error_msg": errors});
     }
@@ -63,6 +63,32 @@ router.get('/:id',(req, res)=>{
     if(req.params.id){
         try{
             postagem.getPostagem(req.params.id).then(data=> res.json(data)).catch(e=> console.log("Erro: " + e));
+        }catch(e){
+            res.status(500).json("Erro ao obter postagem, tente novamente mais tarde.");
+        }
+    }else{
+        res.status(500).json("Id invalido ou nulo");
+    }
+});
+
+router.get('/imagem/:id',(req, res)=>{
+    if(req.params.id){
+        try{
+            var options = {
+                root: __dirname.replace('rotas','')+ 'arquivos',
+                dotfiles: 'deny',
+                headers: {
+                    'x-timestamp': Date.now(),
+                    'x-sent': true
+                }
+            }
+
+            res.sendFile(req.params.id, options, function (err) {
+                if (err) {
+                  next(err);
+                }
+            });
+
         }catch(e){
             res.status(500).json("Erro ao obter postagem, tente novamente mais tarde.");
         }
@@ -134,6 +160,34 @@ router.put('/',(req, res)=>{
     if(!errors.length > 0){
         postagem.alterarPostagem(req.body.id, req.body.titulo,req.body.imagem,req.body.conteudo, req.body.autor);
         res.status(200).json("Postagem alterada com sucesso!");
+    }else{
+        res.status(500).json({"error_msg": errors});
+    }
+});
+
+router.post('/like', (req, res)=>{
+    let errors = [];
+    if(!req.body.id || typeof(req.body.id) == undefined || req.body.id == null){
+        errors.push("Id em branco ou invalido.");
+    }
+    
+    if(!errors.length > 0){
+        postagem.likePostagem(req.body.id);
+        res.status(200).json("like enviado com sucesso!");
+    }else{
+        res.status(500).json({"error_msg": errors});
+    }
+});
+
+router.post('/deslike', (req, res)=>{
+    let errors = [];
+    if(!req.body.id || typeof(req.body.id) == undefined || req.body.id == null){
+        errors.push("Id em branco ou invalido.");
+    }
+    
+    if(!errors.length > 0){
+        postagem.deslikePostagem(req.body.id);
+        res.status(200).json("deslike enviado com sucesso!");
     }else{
         res.status(500).json({"error_msg": errors});
     }

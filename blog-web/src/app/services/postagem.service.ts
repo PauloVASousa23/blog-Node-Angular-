@@ -33,7 +33,7 @@ export class PostagemService {
     formData.append('conteudo', conteudo);
     formData.append('autor', autor);
 
-    return this.http.post(`${environment.API}/postagem/upload/Arquivo`, formData, {responseType : 'blob'});
+    return this.http.post(`${environment.API}/postagem/upload/Arquivo`, formData);
   }
 
   alterarPostagem(id: string, titulo : string, imagem : string, conteudo : string, autor : string){
