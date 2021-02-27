@@ -1,9 +1,9 @@
-<div class="row m-2 py-2 post-preview" *ngFor="let post of postagens" [routerLink]="['/Post', post._id]">
-  <div class="col-3 text-center h-100">
-    <img [src]="urlServer+post.Imagem" class="h-100">
+<div class="row m-2 py-2 post-preview" *ngFor="let post of postagens">
+  <div class="col-3 d-flex align-items-center h-100" [routerLink]="['/Post', post._id]">
+    <img [src]="urlServer+post.Imagem" class="w-100">
   </div>
   <div class="col-9">
     <p style="height: calc(100% - 40px)">{{post.Conteudo}}</p>
-    <label class="w-100 text-right">{{post.Autor}} - {{post.Data | date: 'dd/MM/yyyy'}}</label>
+    <label class="w-100 text-right">{{post.Autor}} - <i class="far fa-clock"></i> {{post.Data | date: 'dd/MM/yy'}} <i class="far fa-thumbs-up pointer" (mouseenter)="hoverLike($event)" (mouseleave)="hoverLike($event)" (click)="like(post._id)"></i> {{post.Like}} <i class="far fa-thumbs-down pointer"  (mouseenter)="hoverDeslike($event)" (mouseleave)="hoverDeslike($event)" (click)="deslike(post._id)"></i> {{post.Deslike}} </label>
   </div>
 </div>

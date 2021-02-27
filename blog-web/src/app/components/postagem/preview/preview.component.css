@@ -13,3 +13,7 @@
 .post-preview:nth-last-child(1){
   border: none;
 }
+
+.pointer{
+  cursor: pointer;
+}
