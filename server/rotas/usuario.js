@@ -18,9 +18,26 @@ router.post('/autenticar', async (req, res)=>{
 
 router.get('/', async (req, res)=>{
     try{
-        usuario.getUsuario().then(data=>res.json(data));        
+        usuario.getUsuarios().then(data=>res.json(data));        
     }catch(e){
         res.status(500).json({"error_msg": "Não foi possivel obter usuários, tente novamente mais tarde!"});
+    }
+});
+
+router.post('/obter', async (req, res)=>{
+    let errors = [];
+    if(!req.body.id || typeof(req.body.id) == undefined || req.body.id == null){
+        errors.push("Id em branco ou invalido.");
+    }
+
+    if(!errors.length > 0){
+        try{
+            usuario.getUsuario(req.body.id).then(data=>res.json(data));                
+        }catch(e){
+            res.status(500).json({"error_msg": "Não foi possivel obter usuários, tente novamente mais tarde!"+ e});
+        }
+    }else{
+        res.status(500).json({"error_msg": "Problema ao obter o usuário, tente novamente mais tarde."});
     }
 });
 

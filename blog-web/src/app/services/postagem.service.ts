@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { take } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
@@ -8,7 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class PostagemService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cookie: CookieService) { }
 
   getPostagens(){
     return this.http.get(`${environment.API}/postagem`);
@@ -46,4 +47,9 @@ export class PostagemService {
   excluirPostagem(id : string){
     return this.http.delete(`${environment.API}/postagem/${id}`);
   }
+
+  avaliarPostagem(id : string, acao : boolean, remover : boolean){
+    return this.http.post(`${environment.API}/postagem/avaliacao`, {id: id, acao: acao, remover: remover, usuario: btoa(this.cookie.get('autenticado'))});
+  }
+
 }

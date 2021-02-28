@@ -165,6 +165,41 @@ router.put('/',(req, res)=>{
     }
 });
 
+router.post('/avaliacao', (req, res)=>{
+    let errors = [];
+    if(!req.body.id || typeof(req.body.id) == undefined || req.body.id == null){
+        errors.push("Id em branco ou invalido.");
+    }
+
+    if(typeof(req.body.acao) == undefined || req.body.acao == null){
+        errors.push("Acão em branco ou invalido.");
+    }
+
+    if(typeof(req.body.remover) == undefined || req.body.remover == null){
+        errors.push("Remover em branco ou invalido.");
+    }
+    
+    if(!req.body.usuario || typeof(req.body.usuario) == undefined || req.body.usuario == null){
+        errors.push("Usuário em branco ou invalido.");
+    }
+    
+    if(!errors.length > 0){
+        postagem.avaliarPostagem(req.body.id, req.body.acao, req.body.remover, req.body.usuario);
+        if(req.body.acao && !req.body.remover){
+            res.status(200).json("Like enviado com sucesso!");
+        }else if(req.body.acao && req.body.remover){
+            res.status(200).json("Like removido com sucesso!");
+        }else if(!req.body.acao && !req.body.remover){
+            res.status(200).json("Deslike enviado com sucesso!");
+        }else if(!req.body.acao && req.body.remover){
+            res.status(200).json("Deslike removido com sucesso!");
+        }
+
+    }else{
+        res.status(500).json({"error_msg": errors});
+    }
+});
+
 router.post('/like', (req, res)=>{
     let errors = [];
     if(!req.body.id || typeof(req.body.id) == undefined || req.body.id == null){
@@ -179,6 +214,20 @@ router.post('/like', (req, res)=>{
     }
 });
 
+router.post('/remover/like', (req, res)=>{
+    let errors = [];
+    if(!req.body.id || typeof(req.body.id) == undefined || req.body.id == null){
+        errors.push("Id em branco ou invalido.");
+    }
+    
+    if(!errors.length > 0){
+        postagem.removerLikePostagem(req.body.id);
+        res.status(200).json("like removido com sucesso!");
+    }else{
+        res.status(500).json({"error_msg": errors});
+    }
+});
+
 router.post('/deslike', (req, res)=>{
     let errors = [];
     if(!req.body.id || typeof(req.body.id) == undefined || req.body.id == null){
@@ -188,6 +237,20 @@ router.post('/deslike', (req, res)=>{
     if(!errors.length > 0){
         postagem.deslikePostagem(req.body.id);
         res.status(200).json("deslike enviado com sucesso!");
+    }else{
+        res.status(500).json({"error_msg": errors});
+    }
+});
+
+router.post('/remover/deslike', (req, res)=>{
+    let errors = [];
+    if(!req.body.id || typeof(req.body.id) == undefined || req.body.id == null){
+        errors.push("Id em branco ou invalido.");
+    }
+    
+    if(!errors.length > 0){
+        postagem.removerDeslikePostagem(req.body.id);
+        res.status(200).json("deslike removido com sucesso!");
     }else{
         res.status(500).json({"error_msg": errors});
     }

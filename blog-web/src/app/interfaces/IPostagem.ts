@@ -5,6 +5,6 @@ export interface IPostagem{
   Conteudo : string,
   Data : string,
   Autor : string,
-  Like: Number,
-  Deslike: Number
+  Like: [String],
+  Deslike: [String]
 }

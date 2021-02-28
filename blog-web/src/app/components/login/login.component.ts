@@ -33,8 +33,9 @@ export class LoginComponent implements OnInit {
     if(this.formLogin.valid){
       this.usuarioService.autenticarUsuario(this.formLogin.get('email').value,this.formLogin.get('senha').value)
         .subscribe((data : any) =>{
-          if(data.length > 0){
-            this.cookie.set('autenticado','true');
+          if(data){
+            console.log(data);
+            this.cookie.set('autenticado', atob(data._id).replace('%B', '2'));
             this.route.navigate(['/administracao']);
           }else{
             alert("E-mail ou senha invalida");

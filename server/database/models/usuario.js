@@ -1,4 +1,5 @@
 const db = require('../db');
+const mongoose = require('mongoose');
 
 var Schema = db.conectar().Schema;
 
@@ -22,9 +23,18 @@ function novoUsuario(nome, email, senha){
     });
 }
 
-function getUsuario(){
+function getUsuarios(){
 
     return usuarioModel.find((error,u)=>{
+        if(error){
+            throw "Erro";
+        }
+    }).exec();
+}
+
+function getUsuario(id){
+
+    return usuarioModel.find({_id: mongoose.Types.ObjectId(id)},(error,u)=>{
         if(error){
             throw "Erro";
         }
@@ -39,7 +49,7 @@ function autenticarUsuario(email, senha){
         throw "Informe uma senha.";
     }
 
-    return usuarioModel.find({Email: email, Senha: senha}).exec();
+    return usuarioModel.findOne({Email: email, Senha: senha}).exec();
 
 }
 
@@ -59,6 +69,7 @@ function alterarUsuario(id,email, senha, permissao){
 module.exports = {
     novoUsuario, 
     getUsuario,
+    getUsuarios,
     autenticarUsuario,
     alterarUsuario
 };

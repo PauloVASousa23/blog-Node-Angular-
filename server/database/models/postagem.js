@@ -10,8 +10,8 @@ var postagemModelSchema = new Schema({
     Conteudo : String,
     Data : String,
     Autor : String, 
-    Like : Number, 
-    Deslike : Number, 
+    Like : [String], 
+    Deslike : [String], 
 });
 
 var postagemModel = db.conectar().model('postagem',postagemModelSchema);
@@ -24,8 +24,8 @@ function novaPostagem(titulo, imagem, conteudo, autor){
         Conteudo : conteudo,
         Data : Date.now(),
         Autor : autor,
-        Like: 0,
-        Deslike: 0
+        Like: [],
+        Deslike: []
     });
 
     postagem.save((err)=>{
@@ -56,9 +56,31 @@ function excluirPostagem(id){
     return postagemModel.deleteOne({_id: mongoose.Types.ObjectId(id)}).exec();
 }
 
+function avaliarPostagem(id, acao, remover, usuario){
+    
+    postagemModel.findOne({_id: mongoose.Types.ObjectId(id)}).then(x=>{
+        let avaliacao;
+        if(acao){
+            if(!remover){
+                avaliacao = {$push: { Like: [usuario] }}
+            }else{
+                avaliacao = {$pullAll: { Like: [usuario] }}
+            }
+        }else{
+            if(!remover){
+                avaliacao = {$push: { Deslike: [usuario] }}
+            }else{
+                avaliacao = {$pullAll: { Deslike: [usuario] }}
+            }
+        }
+
+        return postagemModel.findOneAndUpdate({_id: mongoose.Types.ObjectId(id)}, avaliacao).exec();
+    });
+}
+
 function likePostagem(id){
     postagemModel.findOne({_id: mongoose.Types.ObjectId(id)}).then(x=>{
-        return postagemModel.findOneAndUpdate({_id: mongoose.Types.ObjectId(id)}, {Like: x.Like+1}).exec();
+        return postagemModel.findOneAndUpdate({_id: mongoose.Types.ObjectId(id)}, {Like: x.Like+1, $push: { Usuarios: 'novo' }}).exec();
     });
 }
 
@@ -68,12 +90,27 @@ function deslikePostagem(id){
     });
 }
 
+function removerLikePostagem(id){
+    postagemModel.findOne({_id: mongoose.Types.ObjectId(id)}).then(x=>{
+        return postagemModel.findOneAndUpdate({_id: mongoose.Types.ObjectId(id)}, {Like: x.Like-1}).exec();
+    });
+}
+
+function removerDeslikePostagem(id){
+    postagemModel.findOne({_id: mongoose.Types.ObjectId(id)}).then(x=>{
+        return postagemModel.findOneAndUpdate({_id: mongoose.Types.ObjectId(id)}, {Deslike: x.Deslike-1}).exec();
+    });
+}
+
 module.exports = {
     novaPostagem,
     getPostagens,
     getPostagem,
     alterarPostagem,
     excluirPostagem,
+    avaliarPostagem,
     likePostagem,
-    deslikePostagem
+    deslikePostagem,
+    removerLikePostagem,
+    removerDeslikePostagem
 };

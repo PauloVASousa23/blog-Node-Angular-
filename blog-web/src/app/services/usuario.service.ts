@@ -16,8 +16,12 @@ export class UsuarioService {
     private router: Router
   ) { }
 
-  obterUsuario():any {
+  obterUsuarios() {
     return this.http.get<IUsuario[]>(`${environment.API}/usuario`);
+  }
+
+  obterUsuario(id:any) {
+    return this.http.post<IUsuario[]>(`${environment.API}/usuario/obter`, {id: id});
   }
 
   cadastrarUsuario(nome : string,email : string, senha: string){
