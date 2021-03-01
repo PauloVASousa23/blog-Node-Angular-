@@ -21,9 +21,9 @@ export class AutenticacaoGuardService implements CanActivate{
       return true;
     }else if(this.cookie.get('autenticado').length > 0){
       let id = btoa(this.cookie.get('autenticado'));
-      this.usuarioService.obterUsuario(id).subscribe((usuario : IUsuario[])=>{
-        usuario[0]._id = "";
-        window.localStorage.setItem('data', JSON.stringify(usuario).replace(usuario[0]._id,""));
+      this.usuarioService.obterUsuario(id).subscribe((usuario : IUsuario)=>{
+        usuario._id = "";
+        window.localStorage.setItem('data', JSON.stringify(usuario).replace(usuario._id,""));
       });
       return true;
     }else{

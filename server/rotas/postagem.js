@@ -71,6 +71,18 @@ router.get('/:id',(req, res)=>{
     }
 });
 
+router.get('/autor/:id',(req, res)=>{
+    if(req.params.id){
+        try{
+            postagem.getPostagensAutor(req.params.id).then(data=> res.json(data)).catch(e=> console.log("Erro: " + e));
+        }catch(e){
+            res.status(500).json("Erro ao obter postagem, tente novamente mais tarde.");
+        }
+    }else{
+        res.status(500).json("Id invalido ou nulo");
+    }
+});
+
 router.get('/imagem/:id',(req, res)=>{
     if(req.params.id){
         try{

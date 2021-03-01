@@ -7,6 +7,7 @@ import { AlertasService } from 'src/app/services/alertas.service';
 import { IAlerta } from 'src/app/interfaces/IAlerta';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-criar',
@@ -18,13 +19,14 @@ export class CriarComponent implements OnInit {
   files : Set<File> = new Set();
   formPostagem : any;
   previewImage : any;
+  nome:string = '';
 
   constructor(
     private fb : FormBuilder,
     private postagemService: PostagemService,
     private route : Router,
     private alerta : AlertasService,
-    private sanitizer : DomSanitizer
+    private cookie: CookieService
     ) { }
 
   ngOnInit(): void {
@@ -33,13 +35,13 @@ export class CriarComponent implements OnInit {
       conteudo: ['', [Validators.required, Validators.minLength(50)]],
       imagem: ['']
     });
+    this.nome = JSON.parse(window.localStorage.getItem('data') || '').Nome;
   }
 
   cadastrar(){
     if(this.formPostagem.valid){
       this.formPostagem.get('imagem').setValue(this.previewImage.link);
-      console.log(this.formPostagem);
-      this.postagemService.cadastrarPostagemFile(this.formPostagem.get('titulo').value, this.files, this.formPostagem.get('conteudo').value, "Paulo")
+      this.postagemService.cadastrarPostagemFile(this.formPostagem.get('titulo').value, this.files, this.formPostagem.get('conteudo').value, btoa(this.cookie.get('autenticado')))
         .subscribe(x=>{if(x == 'Postagem cadastrada com sucesso!') {
           this.alerta.mostrarAlerta({Conteudo: "Post criado com sucesso!", Cor: '#90eca5',Timeout: 2000, BarraTimer: true} as IAlerta);
           this.route.navigate(['/administracao'])

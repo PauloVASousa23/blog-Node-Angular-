@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { IAlerta } from 'src/app/interfaces/IAlerta';
 import { AlertasService } from 'src/app/services/alertas.service';
 import { PostagemService } from 'src/app/services/postagem.service';
@@ -16,7 +17,8 @@ export class ListaComponent implements OnInit {
   constructor(
     private postagemService : PostagemService,
     private activeRoute : ActivatedRoute,
-    private alerta : AlertasService
+    private alerta : AlertasService,
+    private cookie : CookieService
     ) { }
 
   ngOnInit(): void {
@@ -40,7 +42,7 @@ export class ListaComponent implements OnInit {
   }
 
   atualizarLista(){
-    this.postagemService.getPostagens().subscribe(data => {this.postagens = data});
+    this.postagemService.getPostagensAutor(btoa(this.cookie.get('autenticado'))).subscribe(data => {this.postagens = data});
   }
 
 }

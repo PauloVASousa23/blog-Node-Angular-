@@ -15,8 +15,7 @@ export class AppComponent implements OnInit{
 
   ngOnInit(){
     if(this.estaLogado()){
-      console.log(JSON.parse(window.localStorage.getItem('data') || "")[0].Nome);
-      this.nome = JSON.parse(window.localStorage.getItem('data') || "")[0].Nome;
+      this.nome = JSON.parse(window.localStorage.getItem('data') || "").Nome;
     }
   }
 

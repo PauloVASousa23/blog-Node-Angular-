@@ -1,3 +1,4 @@
+import { IPostagem } from './../interfaces/IPostagem';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
@@ -13,6 +14,10 @@ export class PostagemService {
 
   getPostagens(){
     return this.http.get(`${environment.API}/postagem`);
+  }
+
+  getPostagensAutor(id : string){
+    return this.http.get<IPostagem[]>(`${environment.API}/postagem/autor/${id}`);
   }
 
   getPostagem(id : string){

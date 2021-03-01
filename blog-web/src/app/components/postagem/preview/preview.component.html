@@ -4,21 +4,17 @@
   </div>
   <div class="col-9">
     <p style="height: calc(100% - 40px)">{{post.Conteudo}}</p>
-    <label class="w-100 text-right">
-      {{post.Autor}} - <i class="far fa-clock"></i>
+    <label class="w-100 text-right user-select-none">
+      {{post.Autor.nome}} - <i class="far fa-clock"></i>
       {{post.Data | date: 'dd/MM/yy'}}
 
-      <i [ngClass]="{'fas text-primary': post.Like.includes(id), 'far': !post.Like.includes(id)}"
+      <i [ngClass]="{'fas text-primary': post.Like.includes(id), 'far': !post.Like.includes(id), 'opacity-2': post.Deslike.includes(id)}"
         class="fa-thumbs-up pointer"
-        (mouseenter)="hoverLike($event, post.Like.includes(id), post.Deslike.includes(id))"
-        (mouseleave)="hoverLike($event, post.Like.includes(id), post.Deslike.includes(id))"
         (click)="like(post._id, post.Like.includes(id), post.Deslike.includes(id))"></i>
       {{post.Like.length}}
 
-      <i [ngClass]="{'fas text-danger': post.Deslike.includes(id), 'far': !post.Deslike.includes(id)}"
+      <i [ngClass]="{'fas text-danger': post.Deslike.includes(id), 'far': !post.Deslike.includes(id), 'opacity-2': post.Like.includes(id)}"
         class="fa-thumbs-down pointer"
-        (mouseenter)="hoverDeslike($event, post.Like.includes(id), post.Deslike.includes(id))"
-        (mouseleave)="hoverDeslike($event, post.Like.includes(id), post.Deslike.includes(id))"
         (click)="deslike(post._id, post.Like.includes(id), post.Deslike.includes(id))"></i>
       {{post.Deslike.length}}
     </label>

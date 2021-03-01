@@ -1,5 +1,6 @@
 const db = require('../db');
 const mongoose = require('mongoose');
+const usuario = require('./usuario');
 
 var Schema = db.conectar().Schema;
 
@@ -9,7 +10,7 @@ var postagemModelSchema = new Schema({
     Imagem : String,
     Conteudo : String,
     Data : String,
-    Autor : String, 
+    Autor : {id: String, nome: String}, 
     Like : [String], 
     Deslike : [String], 
 });
@@ -18,26 +19,38 @@ var postagemModel = db.conectar().model('postagem',postagemModelSchema);
 
 function novaPostagem(titulo, imagem, conteudo, autor){
 
-    var postagem = new postagemModel({
-        Titulo: titulo,
-        Imagem : imagem,
-        Conteudo : conteudo,
-        Data : Date.now(),
-        Autor : autor,
-        Like: [],
-        Deslike: []
+    usuario.getUsuario(autor).then(u=>{
+        console.log(u);
+        var postagem = new postagemModel({
+            Titulo: titulo,
+            Imagem : imagem,
+            Conteudo : conteudo,
+            Data : Date.now(),
+            Autor : {id: u._id, nome: u.Nome},
+            Like: [],
+            Deslike: []
+        });
+    
+        postagem.save((err)=>{
+            if(err){
+                throw "Erro ao cadastrar postagem, tente novamente mais tarde."
+            }
+        });
     });
 
-    postagem.save((err)=>{
-        if(err){
-            throw "Erro ao cadastrar postagem, tente novamente mais tarde."
-        }
-    });
     
 }
 
 function getPostagens(){
     return postagemModel.find((err,data)=>{
+        if(err) throw "Erro ao obter postagens, tente novamente mais tarde."
+
+        postagens = data;
+    }).exec();
+}
+
+function getPostagensAutor(id){
+    return postagemModel.find({"Autor.id": id},(err,data)=>{
         if(err) throw "Erro ao obter postagens, tente novamente mais tarde."
 
         postagens = data;
@@ -105,6 +118,7 @@ function removerDeslikePostagem(id){
 module.exports = {
     novaPostagem,
     getPostagens,
+    getPostagensAutor,
     getPostagem,
     alterarPostagem,
     excluirPostagem,

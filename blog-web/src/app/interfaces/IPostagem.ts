@@ -4,7 +4,7 @@ export interface IPostagem{
   Imagem : string,
   Conteudo : string,
   Data : string,
-  Autor : string,
+  Autor : {id: string, nome: string},
   Like: [String],
   Deslike: [String]
 }

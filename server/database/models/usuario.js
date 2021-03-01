@@ -34,7 +34,7 @@ function getUsuarios(){
 
 function getUsuario(id){
 
-    return usuarioModel.find({_id: mongoose.Types.ObjectId(id)},(error,u)=>{
+    return usuarioModel.findOne({_id: mongoose.Types.ObjectId(id)},(error,u)=>{
         if(error){
             throw "Erro";
         }

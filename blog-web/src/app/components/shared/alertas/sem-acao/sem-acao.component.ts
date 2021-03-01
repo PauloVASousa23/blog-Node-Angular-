@@ -30,7 +30,6 @@ export class SemAcaoComponent implements OnInit, AfterViewInit {
   constructor(public activeModal : NgbActiveModal) { }
 
   ngOnInit(): void {
-    console.log(this.barraTimer);
   }
 
   ngAfterViewInit(): void {

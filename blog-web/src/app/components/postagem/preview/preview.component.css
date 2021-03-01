@@ -17,3 +17,15 @@
 .pointer{
   cursor: pointer;
 }
+
+.fa-thumbs-up:hover{
+  color: #007bff!important;
+}
+
+.fa-thumbs-down:hover{
+  color: #dc3545!important;
+}
+
+.opacity-2{
+  opacity: 0.5;
+}

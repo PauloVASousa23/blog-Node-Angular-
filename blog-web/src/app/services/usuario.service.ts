@@ -21,7 +21,7 @@ export class UsuarioService {
   }
 
   obterUsuario(id:any) {
-    return this.http.post<IUsuario[]>(`${environment.API}/usuario/obter`, {id: id});
+    return this.http.post<IUsuario>(`${environment.API}/usuario/obter`, {id: id});
   }
 
   cadastrarUsuario(nome : string,email : string, senha: string){
@@ -33,6 +33,7 @@ export class UsuarioService {
   }
 
   logout(){
+    window.localStorage.removeItem('data');
     this.cookie.delete('autenticado');
     this.router.navigate(['/Login']);
   }
