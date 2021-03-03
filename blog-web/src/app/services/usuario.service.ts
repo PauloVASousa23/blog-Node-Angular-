@@ -28,8 +28,28 @@ export class UsuarioService {
     return this.http.post<IUsuario>(`${environment.API}/usuario`, {nome: nome, email : email, senha: senha});
   }
 
+  alterarUsuario(id : string, nome : string, email : string, descricao : string){
+    return this.http.put<IUsuario>(`${environment.API}/usuario`, {id: id, nome: nome, email : email, descricao : descricao});
+  }
+
   autenticarUsuario(email : string, senha : string){
     return this.http.post<IUsuario>(`${environment.API}/usuario/autenticar`, {email : email, senha: senha});
+  }
+
+  alterarImagem(id : string, file: Set<File>){
+    console.log(file);
+    const formData = new FormData();
+
+    file.forEach(x=>{
+      console.log(x);
+      formData.append('imagem', x, x.name);
+    });
+
+    formData.append('id', id);
+
+    console.log(formData);
+
+    return this.http.put<IUsuario>(`${environment.API}/usuario/imagem`, formData);
   }
 
   logout(){

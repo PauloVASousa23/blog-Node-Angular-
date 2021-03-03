@@ -1,10 +1,13 @@
 <div class="row m-2 py-2 post-preview" *ngFor="let post of postagens">
-  <div class="col-3 d-flex align-items-center h-100" [routerLink]="['/Post', post._id]">
-    <img [src]="urlServer+post.Imagem" class="w-100">
+  <div class="col-3 d-flex align-items-center justify-content-center overflow-hidden h-100" [routerLink]="['/Post', post._id]">
+    <img [src]="urlServer+post.Imagem" class="h-100">
   </div>
   <div class="col-9">
-    <p style="height: calc(100% - 40px)">{{post.Conteudo}}</p>
+    <p style="height: calc(100% - 40px)" [routerLink]="['/Post', post._id]">{{post.Conteudo}}</p>
     <label class="w-100 text-right user-select-none">
+      <div class="imagem-miniatura">
+        <img [src]="imagemPerfil+post.Autor.id"/>
+      </div>
       {{post.Autor.nome}} - <i class="far fa-clock"></i>
       {{post.Data | date: 'dd/MM/yy'}}
 

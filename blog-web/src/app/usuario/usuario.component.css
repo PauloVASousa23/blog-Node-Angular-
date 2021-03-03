@@ -1,0 +1,25 @@
+.imagem-perfil{
+  display: flex;
+  justify-content: center;
+  height: 150px;
+  width: 150px;
+  border: 1px solid #000;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.imagem-perfil > img{
+  height: 150px;
+}
+
+.botao-alterar-foto{
+  position: absolute;
+  bottom:0px;
+  right: 0px;
+}
+
+.botao-alterar-foto {
+  border-radius: 100%;
+  border: none;
+  background-color: #00000091;
+}

@@ -4,9 +4,11 @@ const mongoose = require('mongoose');
 var Schema = db.conectar().Schema;
 
 var usuarioModelSchema = new Schema({
+    Foto : String,
     Nome : String,
     Email : String,
     Senha : String,
+    Descricao : String,
     Permissao : String
 });
 
@@ -14,7 +16,7 @@ var usuarioModel = db.conectar().model('usuario',usuarioModelSchema);
 
 function novoUsuario(nome, email, senha){
 
-    var novo = new usuarioModel({Nome: nome, Email:email, Senha: senha, Permissao: "Comum"});
+    var novo = new usuarioModel({Foto: "", Nome: nome, Email:email, Descricao: "", Senha: senha, Permissao: "Comum"});
 
     return novo.save((error)=>{
         if(error){
@@ -53,17 +55,12 @@ function autenticarUsuario(email, senha){
 
 }
 
-function alterarUsuario(id,email, senha, permissao){
-    if(!email || typeof(email) == undefined || email == null){
-        throw "Informe um e-mail valido.";
-    }else if(!senha || typeof(senha) == undefined || senha == null){
-        throw "Informe uma senha.";
-    }else if(!permissao || typeof(permissao) == undefined || permissao == null){
-        throw "Informe uma permissao valida.";
-    }
+function alterarUsuario(id, nome, email, descricao){
+    return usuarioModel.findOneAndUpdate({_id: id}, {Nome: nome, Email: email, Descricao: descricao}).exec();
+}
 
-    return usuarioModel.findOneAndUpdate({_id: id}, {_id: id, Email: email, Senha: senha, Permissao: permissao}).exec();
-
+function alterarFoto(id, foto){
+    return usuarioModel.findOneAndUpdate({_id: id}, {Foto: foto}).exec();
 }
 
 module.exports = {
@@ -71,5 +68,6 @@ module.exports = {
     getUsuario,
     getUsuarios,
     autenticarUsuario,
-    alterarUsuario
+    alterarUsuario,
+    alterarFoto
 };

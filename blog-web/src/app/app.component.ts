@@ -1,4 +1,6 @@
+import { environment } from 'src/environments/environment';
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { UsuarioService } from './services/usuario.service';
 
@@ -10,13 +12,20 @@ import { UsuarioService } from './services/usuario.service';
 export class AppComponent implements OnInit{
 
   nome : string = '';
+  imagemPerfil : string = '';
 
-  constructor(private usuarioService: UsuarioService, private cookie : CookieService){};
+  constructor(private usuarioService: UsuarioService, private cookie : CookieService, private router : Router){
+    router.events.subscribe(event =>{
+      if(event instanceof NavigationEnd){
+        if(this.estaLogado()){
+          this.nome = JSON.parse(window.localStorage.getItem('data') || "").Nome;
+          this.imagemPerfil = environment.API + "/usuario/imagem/" + btoa(this.cookie.get('autenticado'));
+        }
+      }
+    });
+  };
 
   ngOnInit(){
-    if(this.estaLogado()){
-      this.nome = JSON.parse(window.localStorage.getItem('data') || "").Nome;
-    }
   }
 
   logout(){

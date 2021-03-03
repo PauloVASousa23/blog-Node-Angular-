@@ -15,7 +15,8 @@ const routes: Routes = [
   {path: 'Login', component: LoginComponent},
   {path: 'Cadastre-se', component: CadastroComponent},
   {path: 'help', component: HelpComponent, canActivate: [AutenticacaoGuardService]},
-  {path: 'administracao', loadChildren: ()=> import('./administracao/administracao-routing.module').then(m => m.AdministracaoRoutingModule), canActivate: [AutenticacaoGuardService]}
+  {path: 'administracao', loadChildren: ()=> import('./administracao/administracao-routing.module').then(m => m.AdministracaoRoutingModule), canActivate: [AutenticacaoGuardService]},
+  {path: 'usuario', loadChildren: ()=> import('./usuario/usuario-routing.module').then(m => m.UsuarioRoutingModule)}
 ];
 
 @NgModule({

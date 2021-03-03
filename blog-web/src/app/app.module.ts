@@ -22,6 +22,7 @@ import { PostagemComponent } from './components/postagem/postagem.component';
 import { EditarComponent } from './administracao/editar/editar.component';
 import { PreviewComponent } from './components/postagem/preview/preview.component';
 import { SemAcaoComponent } from './components/shared/alertas/sem-acao/sem-acao.component';
+import { UsuarioComponent } from './usuario/usuario.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { SemAcaoComponent } from './components/shared/alertas/sem-acao/sem-acao.
     PostagemComponent,
     EditarComponent,
     PreviewComponent,
-    SemAcaoComponent
+    SemAcaoComponent,
+    UsuarioComponent
   ],
   imports: [
     BrowserModule,

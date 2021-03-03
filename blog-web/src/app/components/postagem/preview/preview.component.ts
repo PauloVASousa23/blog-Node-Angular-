@@ -18,12 +18,14 @@ export class PreviewComponent implements OnInit {
   deuLike : boolean = false;
   deuDeslike : boolean = false;
   id : string = '';
+  imagemPerfil : string = '';
 
   constructor(private postagemService: PostagemService, private cookie : CookieService) { }
 
   ngOnInit(): void {
     this.urlServer = environment.API+"/postagem/imagem/";
     this.id = btoa(this.cookie.get('autenticado'));
+    this.imagemPerfil = environment.API+ "/usuario/imagem/";
   }
 
   like(id:any, like: boolean, deslike: boolean){

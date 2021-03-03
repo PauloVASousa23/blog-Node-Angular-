@@ -4,7 +4,12 @@
   <a [routerLink]="['/Sobre']" class="mx-4 text-decoration-none">Sobre</a>
   <a [routerLink]="['/administracao']" *ngIf="estaLogado()" class="mx-4 text-decoration-none">Administração</a>
   <a [routerLink]="['/Login']" *ngIf="!estaLogado()" class="btn btn-primary ml-auto">Entrar</a>
-  <a [routerLink]="['/']" *ngIf="estaLogado()" class="text-decoration-none font-weight-bold ml-auto mr-3">{{nome}}</a>
+  <a [routerLink]="['/usuario']" *ngIf="estaLogado()" class="text-decoration-none font-weight-bold ml-auto mr-3">
+    <div class="imagem-miniatura">
+      <img [src]="imagemPerfil"/>
+    </div>
+    {{nome}}
+  </a>
   <a href="" (click)="logout()" *ngIf="estaLogado()" class="btn btn-danger">Sair</a>
 </header>
 <router-outlet></router-outlet>
